@@ -17,7 +17,8 @@ namespace MusicStore.Standalone
             var builder = new WebHostBuilder()
                 .UseConfiguration(config)
                 .UseIISIntegration()
-                .UseStartup("MusicStore.Standalone");
+                .UseStartup("MusicStore.Standalone")
+                .UseUrls("http://*:8080");
 
             if (string.Equals(builder.GetSetting("server"), "Microsoft.AspNetCore.Server.WebListener", System.StringComparison.Ordinal))
             {
