@@ -2,12 +2,8 @@
 source /opt/app-root/etc/generate_container_user
 
 set -e
-set -x
 
 CWD="samples/MusicStore.Standalone"
-
-# export COREHOST_TRACE=1
-export DOTNET_CLI_CAPTURE_TIMING=1
 
 echo "---> Running musicstore demo ..."
 [ -n "$CWD" ] && [ -d "$CWD" ] && (cd $CWD && dotnet run)
