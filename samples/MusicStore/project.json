@@ -3,7 +3,7 @@
     "Microsoft"
   ],
   "description": "Music store application on ASP.NET Core",
-  "version": "1.2.0-*",
+  "version": "1.1.0-*",
   "buildOptions": {
     "copyToOutput": {
       "include": [
@@ -33,6 +33,10 @@
     ]
   },
   "dependencies": {
+    "Microsoft.NETCore.App": {
+      "version": "1.1.0",
+      "type": "platform"
+    },
     "Microsoft.AspNetCore": "1.1.0",
     "Microsoft.AspNetCore.Authentication.Cookies": "1.1.0",
     "Microsoft.AspNetCore.Authentication.Facebook": "1.1.0",
@@ -52,14 +56,12 @@
     "Microsoft.Extensions.Configuration.CommandLine": "1.1.0"
   },
   "frameworks": {
-    "net451": {},
     "netcoreapp1.1": {
-      "dependencies": {
-        "Microsoft.NETCore.App": {
-          "version": "1.1.0",
-          "type": "platform"
-        }
-      }
+      "imports": [
+        "dotnet5.6",
+        "dnxcore50",
+        "portable-net45+win8"
+      ]
     }
   },
   "tools": {
