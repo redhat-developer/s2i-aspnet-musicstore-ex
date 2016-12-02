@@ -1,15 +1,61 @@
 ﻿{
-  "AppSettings": {
-    "SiteTitle": "ASP.NET MVC Music Store",
-    "CacheDbResults": true
-  },
-  "DefaultAdminUsername": "Administrator@test.com",
-  "DefaultAdminPassword": "YouShouldChangeThisPassword1!",
-  "Data": {
-    "DefaultConnection": {
-      // Use a shared (and running) LocalDB database when executing in IIS e.g.
-      // "Server=(localdb)\\.\\IIS_DB;Database=MusicStore;Trusted_Connection=False;MultipleActiveResultSets=true;User ID=iis_login;Password=********"
-      "ConnectionString": "Server=(localdb)\\MSSQLLocalDB;Database=MusicStore;Trusted_Connection=True;MultipleActiveResultSets=true;Connect Timeout=30;"
+    "AppSettings": {
+        "SiteTitle": "ASP.NET MVC Music Store",
+        "CacheDbResults": true
+    },
+    "DefaultAdminUsername": "Administrator@test.com",
+    "DefaultAdminPassword": "YouShouldChangeThisPassword1!",
+    "Data": {
+        // Modify the Data:Provider:Connection value to choose a different database provider.
+        "Provider": {
+            "Type"      : "Data:DefaultConnection:Type",
+            "Connection": "Data:DefaultConnection:ConnectionString"
+        },
+
+        // Default behavior for this demo is to use SQLServer on Windows or in-memory otherwise.
+        "DefaultConnection": {
+            "Type"            : "default",
+            "ConnectionString": "Server=(localdb)\\MSSQLLocalDB;Database=MusicStore;Trusted_Connection=True;MultipleActiveResultSets=true;Connect Timeout=30;"
+        },
+
+        // Demonstrates connecting MusicStore to an in-memory database
+        "InMemoryConnection": {
+            "Type"            : "inmemory",
+            "ConnectionString": ""
+        },
+
+        // Demonstrates connecting MusicStore to SQLServer
+        "SqlServerConnection": {
+            "Type"            : "sqlserver",
+            "ConnectionString": "Server=(localdb)\\MSSQLLocalDB;Database=MusicStore;Trusted_Connection=True;MultipleActiveResultSets=true;Connect Timeout=30;"
+        },
+
+        // Demonstrates connecting MusicStore to PostgreSQL
+        // Assumes that the 'musicstore' database has been created, tables will be created automatically.
+        "PgsqlConnection": {
+            "Type"            : "pgsql",
+            "ConnectionString": "host=127.0.0.1;port=5432;database=musicstore;username=postgres;password=postgres"
+        },
+
+        // Demonstrates connecting MusicStore to Sqlite
+        // Database and tables will be created automatically.
+        "SqliteConnection": {
+            "Type"            : "sqlite",
+            "ConnectionString": "data source=musicstore.db;"
+        },
+
+        // Demonstrates connecting MusicStore to MariaDB
+        // Assumes that the 'musicstore' database has been created, tables will be created automatically.
+        "MariadbConnection": {
+            "Type"            : "mariadb",
+            "ConnectionString": "server=127.0.0.1;port=3306;database=musicstore;uid=root;pwd=root;"
+        },
+
+        // Demonstrates connecting MusicStore to MySQL
+        // Assumes that the 'musicstore' database has been created, tables will be created automatically.
+        "MysqlConnection": {
+            "Type"            : "mysql",
+            "ConnectionString": "server=127.0.0.1;port=3306;database=musicstore;uid=root;pwd=root;"
+        }
     }
-  }
 }

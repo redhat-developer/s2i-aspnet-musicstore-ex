@@ -12,8 +12,6 @@ namespace MusicStore
 {
     public class Startup
     {
-        private readonly Platform _platform;
-
         public Startup(IHostingEnvironment hostingEnvironment)
         {
             // Below code demonstrates usage of multiple configuration sources. For instance a setting say 'setting1'
@@ -26,7 +24,6 @@ namespace MusicStore
                 .AddEnvironmentVariables();
 
             Configuration = builder.Build();
-            _platform = new Platform();
         }
 
         public IConfiguration Configuration { get; private set; }
@@ -34,18 +31,7 @@ namespace MusicStore
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
-
-            // Add EF services to the services container
-            if (_platform.UseInMemoryStore)
-            {
-                services.AddDbContext<MusicStoreContext>(options =>
-                    options.UseInMemoryDatabase());
-            }
-            else
-            {
-                services.AddDbContext<MusicStoreContext>(options =>
-                    options.UseSqlServer(Configuration[StoreConfig.ConnectionStringKey.Replace("__", ":")]));
-            }
+            services.AddMusicStoreDbContext(Configuration);
 
             // Add Identity services to the services container
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
