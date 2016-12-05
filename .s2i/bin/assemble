@@ -2,7 +2,7 @@
 
 set -e
 
-CWD="samples/MusicStore.Standalone"
+CWD="samples/MusicStore"
 
 function fix-perms() # $1->path
 {

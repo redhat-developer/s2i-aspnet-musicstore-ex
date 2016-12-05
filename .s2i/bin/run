@@ -3,7 +3,7 @@ source /opt/app-root/etc/generate_container_user
 
 set -e
 
-CWD="samples/MusicStore.Standalone"
+CWD="samples/MusicStore"
 
 echo "---> Running musicstore demo ..."
 [ -n "$CWD" ] && [ -d "$CWD" ] && (cd $CWD && dotnet run)
