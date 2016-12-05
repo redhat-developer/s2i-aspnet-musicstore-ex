@@ -207,7 +207,15 @@
                                     }
                                 },
                                 "terminationMessagePath": "/dev/termination-log",
-                                "imagePullPolicy": "Always"
+                                "imagePullPolicy": "Always",
+                                "env" : [
+                                    { "name": "DATABASE_TYPE",     "value": "${DATABASE_TYPE}" },
+                                    { "name": "DATABASE_NAME",     "value": "${DATABASE_NAME}" },
+                                    { "name": "DATABASE_HOST",     "value": "${DATABASE_HOST}" },
+                                    { "name": "DATABASE_PORT",     "value": "${DATABASE_PORT}" },
+                                    { "name": "DATABASE_USERNAME", "value": "${DATABASE_USERNAME}" },
+                                    { "name": "DATABASE_PASSWORD", "value": "${DATABASE_PASSWORD}" }
+                                ]
                             }
                         ],
                         "restartPolicy": "Always",
