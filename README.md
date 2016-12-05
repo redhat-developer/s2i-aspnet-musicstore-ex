@@ -1,40 +1,39 @@
-# MusicStore application
+# MusicStore Demo
 
-AppVeyor: [![AppVeyor](https://ci.appveyor.com/api/projects/status/ja8a7j6jscj7k3xa/branch/dev?svg=true)](https://ci.appveyor.com/project/aspnetci/MusicStore/branch/dev)
+This project is a fork of the ASP.NET Core MusicStore Demo at [https://github.com/aspnet/MusicStore]() and it has been adapted for use with .NET Core 1.1 on RHEL7 and OpenShift. You can find original samples, documentation and getting started instructions for ASP.NET Core at the [Home](https://github.com/aspnet/home) repo.
 
-Travis:   [![Travis](https://travis-ci.org/aspnet/MusicStore.svg?branch=dev)](https://travis-ci.org/aspnet/MusicStore)
+## Run on RHEL7
+If you haven't already done so you will first need to install .NET Core and enable the software collection:
+```
+sudo subscription-manager repos --enable=rhel-7-server-dotnet-rpms
+sudo yum install scl-utils
+sudo yum install rh-dotnetcore11
+sudo scl enable rh-dotnetcore11 bash
+```
+At this point you can clone the repository and run the MusicStore appliation locally:
+```
+git clone https://github.com/gpiercey/s2i-aspnet-musicstore-ex.git
+cd s2i-aspnet-musicstore-ex/samples/MusicStore
+dotnet restore
+dotnet build
+dotnet run
+```
+The MusicStore demo should now be runing on [http://127.0.0.1:8080]()
 
-This project is part of ASP.NET Core. You can find samples, documentation and getting started instructions for ASP.NET Core at the [Home](https://github.com/aspnet/home) repo.
+## Run on OpenShift Origin
 
-## Run the application on Helios:
-* If you have Visual Studio 2015
-	1. Open MusicStore.sln in Visual Studio 2015 and run the individual applications on `IIS Express`.
-* If you don't have Visual Studio 2015
-	1. Open a command prompt and execute `cd \src\MusicStore\`.
-	2. Execute `dnu restore`.
-	3. Execute `Helios.cmd` to launch the app on IISExpress from command line (Application started at URL **http://localhost:5001/**).
-	   
-**NOTE:** App and tests require Visual Studio 2015 LocalDB on the machine to run.
+### OpenShift Web Console
+- login and create a project
+- click add to project
+- select musicstore from the list of quick-start applications, OR
+- import templates/musicstore-template.json from the source folder if the quickstart doesn't exist
+- provide an application name
+- provide a database type (inmemory, sqlite, pgsql, mariadb or mysql)
+- provide a database hostname
+- provide a database port
+- provide a database name (ie. musicstore)
+- provide a database username
+- provide a database password
+- click create and go refill your coffee, this will take a couple minutes
 
-## Run on WebListener/Kestrel:
-* Open a command prompt and cd `\src\MusicStore\`.
-* **[WebListener]:**
-	4. Run `dnx . web` (Application started at URL **http://localhost:5002/**).
-* **[Kestrel]:**
-	5. Run `dnx . kestrel` (Application started at URL **http://localhost:5004/**).
-* **[CustomHost]:**
-	6. Run `dnx . run` (This hosts the app in a console application - Application started at URL **http://localhost:5003/**).
-
-## To run the sample on Mac/Mono:
-* Follow the instructions at the [Home](https://github.com/aspnet/Home) repository to install Mono and DNVM on Mac OS X.
-* Open a command prompt and execute `cd \src\MusicStore\`.
-* Execute `dnu restore`.
-* Try `dnx . kestrel` to run the application.
-
-**NOTE:** Since on Mono SQL client is not available the sample uses an InMemoryStore to run the application. So the changes that you make will not be persisted.
-
-###NTLM authentication
-More information at [src/MusicStore/StartupNtlmAuthentication.cs](src/MusicStore/StartupNtlmAuthentication.cs).
-
-###OpenIdConnect authentication
-More information at [src/MusicStore/StartupOpenIdConnect.cs](src/MusicStore/StartupOpenIdConnect.cs).
+NOTE: on OpenShift, if you are trying to connect to one if the ephimeral database apps the value of the hostname will be the app name you gave the database. For example, if you installed mariadb and gave it an application name of 'redhatrocks' then the database hostname will also be 'redhatrocks'.
