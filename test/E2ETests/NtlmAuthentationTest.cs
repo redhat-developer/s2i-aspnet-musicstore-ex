@@ -4,7 +4,7 @@ using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 using E2ETests.Common;
-using Microsoft.AspNetCore.Server.Testing;
+using Microsoft.AspNetCore.Server.IntegrationTesting;
 using Microsoft.AspNetCore.Testing.xunit;
 using Microsoft.Extensions.Logging;
 using Xunit;
@@ -38,7 +38,9 @@ namespace E2ETests
                 var deploymentParameters = new DeploymentParameters(Helpers.GetApplicationPath(applicationType), serverType, runtimeFlavor, architecture)
                 {
                     PublishApplicationBeforeDeployment = true,
-                    TargetFramework = runtimeFlavor == RuntimeFlavor.Clr ? "net451" : "netcoreapp1.0",
+                    PreservePublishedApplicationForDebugging = Helpers.PreservePublishedApplicationForDebugging,
+                    TargetFramework = runtimeFlavor == RuntimeFlavor.Clr ? "net451" : "netcoreapp1.1",
+                    Configuration = Helpers.GetCurrentBuildConfiguration(),
                     ApplicationType = applicationType,
                     ApplicationBaseUriHint = applicationBaseUrl,
                     EnvironmentName = "NtlmAuthentication", //Will pick the Start class named 'StartupNtlmAuthentication'
@@ -53,7 +55,7 @@ namespace E2ETests
                 // Override the connection strings using environment based configuration
                 deploymentParameters.EnvironmentVariables
                     .Add(new KeyValuePair<string, string>(
-                        MusicStore.StoreConfig.ConnectionStringKey,
+                        MusicStoreConfig.ConnectionStringKey,
                         DbUtils.CreateConnectionString(musicStoreDbName)));
 
                 using (var deployer = ApplicationDeployerFactory.Create(deploymentParameters, _logger))

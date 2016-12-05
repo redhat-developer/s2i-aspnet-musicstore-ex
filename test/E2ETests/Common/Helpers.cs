@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 using System.Linq;
-using Microsoft.AspNetCore.Server.Testing;
+using Microsoft.AspNetCore.Server.IntegrationTesting;
 using Microsoft.Extensions.Logging;
 
 namespace E2ETests
@@ -18,7 +18,7 @@ namespace E2ETests
 
         public static string GetApplicationPath(ApplicationType applicationType)
         {
-            return Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "..", "..", "src", applicationType == ApplicationType.Standalone ? "MusicStore.Standalone" : "MusicStore"));
+            return Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "..", "..", "samples", applicationType == ApplicationType.Standalone ? "MusicStore.Standalone" : "MusicStore"));
         }
 
         public static void SetInMemoryStoreForIIS(DeploymentParameters deploymentParameters, ILogger logger)
@@ -38,6 +38,35 @@ namespace E2ETests
 
 
                 File.WriteAllText(overrideConfig, "{\"UseInMemoryDatabase\": \"true\"}");
+            }
+        }
+
+        public static string GetCurrentBuildConfiguration()
+        {
+            var configuration = "Debug";
+            if (string.Equals(Environment.GetEnvironmentVariable("Configuration"), "Release", StringComparison.OrdinalIgnoreCase))
+            {
+                configuration = "Release";
+            }
+
+            return configuration;
+        }
+
+        public static bool PreservePublishedApplicationForDebugging
+        {
+            get
+            {
+                var deletePublishedFolder = Environment.GetEnvironmentVariable("ASPNETCORE_DELETEPUBLISHEDFOLDER");
+
+                if (string.Equals("false", deletePublishedFolder, StringComparison.OrdinalIgnoreCase)
+                    || string.Equals("0", deletePublishedFolder, StringComparison.OrdinalIgnoreCase))
+                {
+                    // preserve the published folder and do not delete it
+                    return true;
+                }
+
+                // do not preserve the published folder and delete it
+                return false;
             }
         }
     }
