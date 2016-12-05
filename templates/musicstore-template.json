@@ -24,7 +24,7 @@
             "kind": "ImageStream",
             "apiVersion": "v1",
             "metadata": {
-                "name": "musicstore"
+                "name": "dotnet"
             },
             "spec": {
                 "dockerImageRepository": "${ASP_UPSTREAM_IMAGE}"
@@ -106,7 +106,7 @@
                     "sourceStrategy": {
                         "from": {
                             "kind": "ImageStreamTag",
-                            "name": "musicstore:${ASP_UPSTREAM_IMAGE_TAG}"
+                            "name": "dotnet:${ASP_UPSTREAM_IMAGE_TAG}"
                         }
                     }
                 },
@@ -235,16 +235,17 @@
     ],
     "parameters": [
         {
-            "name": "MEMORY_LIMIT",
-            "displayName": "Memory Limit",
-            "description": "Maximum amount of memory the .NET Core container can use.",
-            "value": "512Mi",
-            "required": true
-        },{
             "name": "APPLICATION_NAME",
             "description": "Application Name",
             "value": "musicstore",
             "displayName": "Application Name",
+            "required": true
+        },
+        {
+            "name": "MEMORY_LIMIT",
+            "displayName": "Memory Limit",
+            "description": "Maximum amount of memory the .NET Core container can use.",
+            "value": "512Mi",
             "required": true
         },
         {
@@ -258,7 +259,7 @@
             "name": "GIT_REF",
             "description": "Set this to a branch name, tag or other ref of your repository if you are not using the default branch.",
             "displayName": "Git Branch",
-            "value": "compat-release-1.1.0"
+            "value": "compat-release-1.1.0-ef-providers"
         },
         {
             "name": "GIT_CONTEXT_DIR",
@@ -280,7 +281,7 @@
         {
             "name": "ASP_UPSTREAM_IMAGE_TAG",
             "description": "Base OpenShift ASP S2I Image Tag",
-            "value": "latest",
+            "value": "1.1",
             "displayName": "Upstream S2I Image Tag"
         },
         {
@@ -288,7 +289,6 @@
             "description": "GitHub trigger secret",
             "generate": "expression",
             "from": "[a-zA-Z0-9]{8}",
-            "required": true,
             "displayName": "GitHub Webhook Secret"
         },
         {
@@ -296,8 +296,7 @@
             "description": "Generic build trigger secret",
             "generate": "expression",
             "from": "[a-zA-Z0-9]{8}",
-            "displayName": "Generic Webhook Secret",
-            "required": true
+            "displayName": "Generic Webhook Secret"
         }
     ],
     "labels": {
