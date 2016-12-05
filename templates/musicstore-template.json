@@ -268,6 +268,48 @@
             "value": ""
         },
         {
+            "name": "DATABASE_TYPE",
+            "description": "Choose one of: inmemory, sqlserver, pgsql, sqlite, mariadb or mysql.",
+            "displayName": "Database Service Type",
+            "required"   : true,
+            "value"      : "inmemory"
+        },
+        {
+            "name": "DATABASE_HOST",
+            "description": "Enter the database host, not required for inmemory or sqlite",
+            "displayName": "Database Hostname",
+            "required"   : false,
+            "value"      : ""
+        },
+        {
+            "name": "DATABASE_PORT",
+            "description": "mariadb and mysql use 3306, pgsql uses 5432.",
+            "displayName": "Database Port",
+            "required"   : false,
+            "value"      : ""
+        },
+        {
+            "name": "DATABASE_NAME",
+            "description": "Choose a name for the database",
+            "displayName": "Database Name",
+            "required"   : false,
+            "value"      : ""
+        },
+        {
+            "name": "DATABASE_USERNAME",
+            "description": "Choose a username to access the database",
+            "displayName": "Database Username",
+            "required"   : false,
+            "value"      : ""
+        },
+        {
+            "name": "DATABASE_PASSWORD",
+            "description": "Choose a password to access the database",
+            "displayName": "Database Password",
+            "required"   : false,
+            "value"      : ""
+        },
+        {
            "name": "APPLICATION_HOSTNAME",
            "description": "The exposed hostname that will route to the service, if left blank a value will be defaulted.",
            "displayName": "Application hostname"
