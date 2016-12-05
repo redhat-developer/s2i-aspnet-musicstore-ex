@@ -261,13 +261,13 @@
             "description": "The URL of the repository with your application source code.",
             "displayName": "Git URI",
             "required": true,
-            "value": "https://github.com/gpiercey/s2i-aspnet-musicstore.git"
+            "value": "https://github.com/gpiercey/s2i-aspnet-musicstore-ex.git"
         },
         {
             "name": "GIT_REF",
             "description": "Set this to a branch name, tag or other ref of your repository if you are not using the default branch.",
             "displayName": "Git Branch",
-            "value": "compat-release-1.1.0-ef-providers"
+            "value": "master"
         },
         {
             "name": "GIT_CONTEXT_DIR",
