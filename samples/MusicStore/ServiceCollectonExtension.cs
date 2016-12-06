@@ -68,6 +68,12 @@ namespace MusicStore
             return services;
         }
 
+        // ** DON'T COPY THIS CODE! **
+        // In the wild it is not a good idea to construct connection strings from user-provided data. 
+        // This is a demo application and this code is being included to ease the integration with 
+        // OpenShift using template parameters to demonstrate connectivity with multiple databases.
+        // In production you should define a static connection string in a config file and ensure its
+        // privacy.
         public static string GetConnectionStringFromEnvironment(IConfiguration configuration, string providerType)
         {
             string connectionString = null;
