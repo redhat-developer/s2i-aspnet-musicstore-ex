@@ -214,7 +214,8 @@
                                     { "name": "DATABASE_HOST",     "value": "${DATABASE_HOST}" },
                                     { "name": "DATABASE_PORT",     "value": "${DATABASE_PORT}" },
                                     { "name": "DATABASE_USERNAME", "value": "${DATABASE_USERNAME}" },
-                                    { "name": "DATABASE_PASSWORD", "value": "${DATABASE_PASSWORD}" }
+                                    { "name": "DATABASE_PASSWORD", "value": "${DATABASE_PASSWORD}" },
+                                    { "name": "ASPNETCORE_URLS",   "value": "${ASPNETCORE_URLS}" }
                                 ]
                             }
                         ],
@@ -321,6 +322,12 @@
            "name": "APPLICATION_HOSTNAME",
            "description": "The exposed hostname that will route to the service, if left blank a value will be defaulted.",
            "displayName": "Application hostname"
+        },
+        {
+            "name": "ASPNETCORE_URLS",
+            "description": "Define the exposed endpoint within the container",
+            "value": "http://*:8080",
+            "displayName": "Exposed ASP.NET URL"
         },
         {
             "name": "ASP_UPSTREAM_IMAGE",
