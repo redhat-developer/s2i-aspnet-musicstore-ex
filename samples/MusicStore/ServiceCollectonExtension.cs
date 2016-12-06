@@ -10,7 +10,7 @@ namespace MusicStore
     {
         public static IServiceCollection AddMusicStoreDbContext(this IServiceCollection services, IConfiguration configuration)
         {
-            string providerType = Environment.GetEnvironmentVariable("DATABASE_TYPE");
+            string providerType = configuration["DATABASE_TYPE"];
             string connectionString = null;
 
             if (string.IsNullOrEmpty(providerType))
@@ -20,7 +20,7 @@ namespace MusicStore
             }
             else
             {
-                connectionString = GetConnectionStringFromEnvironment(providerType.ToLower());
+                connectionString = GetConnectionStringFromEnvironment(configuration, providerType.ToLower());
             }
 
             switch (providerType)
@@ -68,7 +68,7 @@ namespace MusicStore
             return services;
         }
 
-        public static string GetConnectionStringFromEnvironment(string providerType)
+        public static string GetConnectionStringFromEnvironment(IConfiguration configuration, string providerType)
         {
             string connectionString = null;
 
@@ -77,11 +77,11 @@ namespace MusicStore
                 return connectionString;
             }
 
-            var databaseName = Environment.GetEnvironmentVariable("DATABASE_NAME");
-            var databaseHost = Environment.GetEnvironmentVariable("DATABASE_HOST");
-            var databasePort = Environment.GetEnvironmentVariable("DATABASE_PORT");
-            var databaseUsername = Environment.GetEnvironmentVariable("DATABASE_USERNAME");
-            var databasePassword = Environment.GetEnvironmentVariable("DATABASE_PASSWORD");
+            var databaseName = configuration["DATABASE_NAME"];
+            var databaseHost = configuration["DATABASE_HOST"];
+            var databasePort = configuration["DATABASE_PORT"];
+            var databaseUsername = configuration["DATABASE_USERNAME"];
+            var databasePassword = configuration["DATABASE_PASSWORD"];
 
             if (providerType.Contains("inmemory"))
             {
