@@ -10,113 +10,43 @@ namespace MusicStore
     {
         public static IServiceCollection AddMusicStoreDbContext(this IServiceCollection services, IConfiguration configuration)
         {
-            string providerType = configuration["DATABASE_TYPE"];
-            string connectionString = null;
-
-            if (string.IsNullOrEmpty(providerType))
+            var provider = configuration[StoreConfig.DataProviderKey.Replace("__", ":")];
+            var connectionString = configuration[StoreConfig.ConnectionStringKey.Replace("__", ":")];
+            if (string.IsNullOrEmpty(provider))
             {
-                providerType = configuration[configuration["Data:Provider:Type"]].ToLower();
-                connectionString = configuration[configuration["Data:Provider:Connection"]];
+                provider = StoreConfig.DataProviderPlatform;
             }
-            else
+            if (provider == StoreConfig.DataProviderPlatform)
             {
-                connectionString = GetConnectionStringFromEnvironment(configuration, providerType.ToLower());
+                var platform = new Platform();
+                provider = platform.UseInMemoryStore ? StoreConfig.DataProviderMemory : StoreConfig.DataProviderSqlServer;
             }
-
-            switch (providerType)
+            switch (provider)
             {
-                case "default":
-                    var platform = new Platform();
-                    if (platform.UseInMemoryStore)
-                    {
-                        services.AddDbContext<MusicStoreContext>(options => options.UseInMemoryDatabase());
-                    }
-                    else
-                    {
-                        services.AddDbContext<MusicStoreContext>(options => options.UseSqlServer(connectionString));
-                    }
+                case StoreConfig.DataProviderMemory:
+                    services.AddDbContext<MusicStoreContext>(options =>
+                        options.UseInMemoryDatabase());
                     break;
-
-                case "sqlserver":
-                    services.AddDbContext<MusicStoreContext>(options => options.UseSqlServer(connectionString));
+                case StoreConfig.DataProviderSqlServer:
+                    services.AddDbContext<MusicStoreContext>(options =>
+                        options.UseSqlServer(connectionString));
                     break;
-
-                case "inmemory":
-                    services.AddDbContext<MusicStoreContext>(options => options.UseInMemoryDatabase());
+                case StoreConfig.DataProviderNpgsql:
+                    services.AddDbContext<MusicStoreContext>(options =>
+                        options.UseNpgsql(connectionString));
                     break;
-
-                case "pgsql":
-                    services.AddDbContext<MusicStoreContext>(options => options.UseNpgsql(connectionString));
+                case StoreConfig.DataProviderSqlite:
+                    services.AddDbContext<MusicStoreContext>(options =>
+                        options.UseSqlite(connectionString));
                     break;
-
-                case "sqlite":
-                    services.AddDbContext<MusicStoreContext>(options => options.UseSqlite(connectionString));
+                case StoreConfig.DataProviderMysql:
+                    services.AddDbContext<MusicStoreContext>(options =>
+                        options.UseMySql(connectionString));
                     break;
-
-                case "mariadb":
-                    services.AddDbContext<MusicStoreContext>(options => options.UseMySql(connectionString));
-                    break;
-
-                case "mysql":
-                    services.AddDbContext<MusicStoreContext>(options => options.UseMySql(connectionString));
-                    break;
-
                 default:
-                    throw new ArgumentException("unkown provider", providerType);
-            };
-
+                    throw new ArgumentException("Unknown data provider", StoreConfig.DataProviderKey);
+            }
             return services;
-        }
-
-        // ** DON'T COPY THIS CODE! **
-        // In the wild it is not a good idea to construct connection strings from user-provided data. 
-        // This is a demo application and this code is being included to ease the integration with 
-        // OpenShift using template parameters to demonstrate connectivity with multiple databases.
-        // In production you should define a static connection string in a config file and ensure its
-        // privacy.
-        public static string GetConnectionStringFromEnvironment(IConfiguration configuration, string providerType)
-        {
-            string connectionString = null;
-
-            if (string.IsNullOrEmpty(providerType))
-            {
-                return connectionString;
-            }
-
-            var databaseName = configuration["DATABASE_NAME"];
-            var databaseHost = configuration["DATABASE_HOST"];
-            var databasePort = configuration["DATABASE_PORT"];
-            var databaseUsername = configuration["DATABASE_USERNAME"];
-            var databasePassword = configuration["DATABASE_PASSWORD"];
-
-            if (providerType.Contains("inmemory"))
-            {
-                // do nothing
-            }
-
-            else if (providerType.Contains("sqlserver"))
-            {
-                connectionString = string.Format("Server=(localdb)\\MSSQLLocalDB;Database={0};Trusted_Connection=True;MultipleActiveResultSets=true;Connect Timeout=30;", databaseName);
-            }
-
-            else if (providerType.Contains("sqlite"))
-            {
-                connectionString = string.Format("data source={0}.db;", databaseName);
-            }
-
-            else if (providerType.Contains("pgsql"))
-            {
-                connectionString = string.Format("host={0};port={1};database={2};username={3};password={4}",
-                    databaseHost, databasePort, databaseName, databaseUsername, databasePassword);
-            }
-
-            else if (providerType.Contains("mariadb") || providerType.Contains("mysql"))
-            {
-                connectionString = string.Format("server={0};port={1};database={2};uid={3};pwd={4};",
-                    databaseHost, databasePort, databaseName, databaseUsername, databasePassword);
-            }
-
-            return connectionString;
         }
     }
 }

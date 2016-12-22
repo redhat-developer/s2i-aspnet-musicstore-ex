@@ -1,6 +1,17 @@
 # MusicStore Demo
 
-This project is a fork of the ASP.NET Core MusicStore Demo at [https://github.com/aspnet/MusicStore]() and it has been adapted for use with .NET Core 1.1 on RHEL7 and OpenShift. You can find original samples, documentation and getting started instructions for ASP.NET Core at the [Home](https://github.com/aspnet/home) repo.
+This project is a fork of the ASP.NET Core MusicStore Demo at [https://github.com/aspnet/MusicStore]() and it has been extended to support several open source database providers. You can find original samples, documentation and getting started instructions for ASP.NET Core at the [Home](https://github.com/aspnet/home) repo.
+
+## Supported database providers
+
+The database providers can be selected by changing the config.json file or by setting the `Data__DefaultConnection__Provider` and `Data__DefaultConnection__ConnectionString` environment variables.
+
+| Database             | Package                                 | Provider  | Connection string example |
+| -------------------- | --------------------------------------- | --------- | ------------------------- |
+| MySql/MariaDB        | Pomelo.EntityFrameworkCore.MySql        | mysql     | "server=127.0.0.1;port=3306;database=musicstore;uid=root;pwd=root;" |
+| PostgreSQL           | Npgsql.EntityFrameworkCore.PostgreSQL   | npgsql    | "Host=localhost;Database=musicstore;Username=musicstore;Password=musicstore" |
+| SQLite               | Microsoft.EntityFrameworkCore.Sqlite    | sqlite    | "data source=musicstore.db;" |
+
 
 ## Run on RHEL7
 If you haven't already done so you will first need to install .NET Core and enable the software collection:
@@ -23,17 +34,5 @@ The MusicStore demo should now be runing on [http://127.0.0.1:8080]()
 ## Run on OpenShift Origin
 
 ### OpenShift Web Console
-- login and create a project
-- click add to project
-- select musicstore from the list of quick-start applications, OR
-- import templates/musicstore-template.json from the source folder if the quickstart doesn't exist
-- provide an application name
-- provide a database type (inmemory, sqlite, pgsql, mariadb or mysql)
-- provide a database hostname
-- provide a database port
-- provide a database name (ie. musicstore)
-- provide a database username
-- provide a database password
-- click create and go refill your coffee, this will take a couple minutes
 
-NOTE: on OpenShift, if you are trying to connect to one if the ephimeral database apps the value of the hostname will be the app name you gave the database. For example, if you installed mariadb and gave it an application name of 'redhatrocks' then the database hostname will also be 'redhatrocks'.
+TODO: aspnet-pgsql-persistent template
