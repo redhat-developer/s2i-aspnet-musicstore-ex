@@ -1,4 +1,0 @@
-DOTNET_STARTUP_PROJECT="samples/MusicStore"
-DOTNET_CONFIGURATION="Release"
-DOTNET_RESTORE_ROOT="samples/MusicStore"
-DOTNET_FRAMEWORK="netcoreapp1.1"
