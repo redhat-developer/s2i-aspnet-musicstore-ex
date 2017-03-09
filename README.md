@@ -1,6 +1,6 @@
 # MusicStore Demo
 
-This project is a fork of the ASP.NET Core MusicStore Demo at [https://github.com/aspnet/MusicStore]() and it has been extended to support several open source database providers. You can find original samples, documentation and getting started instructions for ASP.NET Core at the [Home](https://github.com/aspnet/home) repo.
+This project is a fork of the ASP.NET Core MusicStore Demo at [https://github.com/aspnet/MusicStore](https://github.com/aspnet/MusicStore) and it has been extended to support several open source database providers. You can find original samples, documentation and getting started instructions for ASP.NET Core at the [Home](https://github.com/aspnet/home) repo.
 
 ## Supported database providers
 
