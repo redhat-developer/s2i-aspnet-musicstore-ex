@@ -10,8 +10,20 @@ namespace MusicStore
     {
         public static IServiceCollection AddMusicStoreDbContext(this IServiceCollection services, IConfiguration configuration)
         {
-            var provider = configuration[StoreConfig.DataProviderKey.Replace("__", ":")];
-            var connectionString = configuration[StoreConfig.ConnectionStringKey.Replace("__", ":")];
+            string provider;
+            string connectionString;
+
+            // For a nicer example, setting ConnectionString will use PostgreSQL
+            if (configuration["ConnectionString"] != null)
+            {
+                provider = StoreConfig.DataProviderNpgsql;
+                connectionString = configuration["ConnectionString"];
+            }
+            else
+            {
+                provider = configuration[StoreConfig.DataProviderKey.Replace("__", ":")];
+                connectionString = configuration[StoreConfig.ConnectionStringKey.Replace("__", ":")];
+            }
             if (string.IsNullOrEmpty(provider))
             {
                 provider = StoreConfig.DataProviderPlatform;
@@ -21,6 +33,8 @@ namespace MusicStore
                 var platform = new Platform();
                 provider = platform.UseInMemoryStore ? StoreConfig.DataProviderMemory : StoreConfig.DataProviderSqlServer;
             }
+
+            Console.WriteLine($"Using data provider: {provider}");
             switch (provider)
             {
                 case StoreConfig.DataProviderMemory:
