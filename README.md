@@ -35,4 +35,4 @@ The MusicStore demo should now be runing on [http://127.0.0.1:8080]()
 
 The **dotnet-pgsql-persistent** template in the [s2i-dotnetcore](https://github.com/redhat-developer/s2i-dotnetcore) repository
 instantiates the MusicStore application with a PostgreSQL database. The [README.md](https://github.com/redhat-developer/s2i-dotnetcore/blob/master/README.md)
-describes how you use the template.
+describes how to use the template.
