@@ -23,7 +23,7 @@ sudo scl enable rh-dotnetcore11 bash
 ```
 At this point you can clone the repository and run the MusicStore appliation locally:
 ```
-git clone https://github.com/gpiercey/s2i-aspnet-musicstore-ex.git
+git clone https://github.com/redhat-developer/s2i-aspnet-musicstore-ex.git
 cd s2i-aspnet-musicstore-ex/samples/MusicStore
 dotnet restore
 dotnet build
@@ -31,16 +31,8 @@ dotnet run
 ```
 The MusicStore demo should now be runing on [http://127.0.0.1:8080]()
 
-## Run on OpenShift Origin
+## Run on OpenShift
 
-### Environment
-
-The `samples/MusicStore` includes a `.s2i/environment` file to control the s2i build.
-
-`project.json` will by default name an assembly the same as the parent folder. If we do a s2i build using `samples/MusicStore` as the `context-dir`, the assembly will be named `src.dll`.
-The `MusicStore` application requires the name to be `MusicStore` because it is using the `WebHostBuilder.UseStartup("MusicStore")` in `Program.cs`. By setting the `DOTNET_ASSEMBLY_NAME` in `.s2i/environment` to `MusicStore`,
-the default `project.json` assembly name will be `MusicStore.dll`.
-
-### OpenShift Web Console
-
-TODO: aspnet-pgsql-persistent template
+The **dotnet-pgsql-persistent** template in the [s2i-dotnetcore](https://github.com/redhat-developer/s2i-dotnetcore) repository
+instantiates the MusicStore application with a PostgreSQL database. The [README.md](https://github.com/redhat-developer/s2i-dotnetcore/blob/master/README.md)
+describes how to use the template.
