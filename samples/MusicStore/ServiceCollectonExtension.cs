@@ -24,7 +24,6 @@ namespace MusicStore
                 provider = configuration[StoreConfig.DataProviderKey.Replace("__", ":")];
                 connectionString = configuration[StoreConfig.ConnectionStringKey.Replace("__", ":")];
             }
-
             if (string.IsNullOrEmpty(provider))
             {
                 provider = StoreConfig.DataProviderPlatform;
@@ -34,6 +33,8 @@ namespace MusicStore
                 var platform = new Platform();
                 provider = platform.UseInMemoryStore ? StoreConfig.DataProviderMemory : StoreConfig.DataProviderSqlServer;
             }
+
+            Console.WriteLine($"Using data provider: {provider}");
             switch (provider)
             {
                 case StoreConfig.DataProviderMemory:
