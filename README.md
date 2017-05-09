@@ -1,32 +1,39 @@
-MusicStore (Sample ASP.NET Core application)
-============================================
+# MusicStore Demo
 
-AppVeyor: [![AppVeyor](https://ci.appveyor.com/api/projects/status/ja8a7j6jscj7k3xa/branch/dev?svg=true)](https://ci.appveyor.com/project/aspnetci/MusicStore/branch/dev)
+This project is a fork of the ASP.NET Core MusicStore Demo at [https://github.com/aspnet/MusicStore](https://github.com/aspnet/MusicStore) and it has been extended to support several open source database providers. You can find original samples, documentation and getting started instructions for ASP.NET Core at the [Home](https://github.com/aspnet/home) repo.
 
-Travis:   [![Travis](https://travis-ci.org/aspnet/MusicStore.svg?branch=dev)](https://travis-ci.org/aspnet/MusicStore)
+## Supported database providers
 
-This project is part of ASP.NET Core. You can find samples, documentation and getting started instructions for ASP.NET Core at the [Home](https://github.com/aspnet/home) repo.
+The database providers can be selected by changing the config.json file or by setting the `Data__DefaultConnection__Provider` and `Data__DefaultConnection__ConnectionString` environment variables.
 
-## Run the application:
-* If you have Visual Studio 2017
-	1. Open MusicStore.sln in Visual Studio 2017 and run the individual applications on `IIS Express`.
+| Database             | Package                                 | Provider  | Connection string example |
+| -------------------- | --------------------------------------- | --------- | ------------------------- |
+| MySql/MariaDB        | Pomelo.EntityFrameworkCore.MySql        | mysql     | "server=127.0.0.1;port=3306;database=musicstore;uid=root;pwd=root;" |
+| PostgreSQL           | Npgsql.EntityFrameworkCore.PostgreSQL   | npgsql    | "Host=localhost;Database=musicstore;Username=musicstore;Password=musicstore" |
+| SQLite               | Microsoft.EntityFrameworkCore.Sqlite    | sqlite    | "data source=musicstore.db;" |
 
-* If you don't have Visual Studio 2017
-	1. Open a command prompt and execute `cd \src\MusicStore\`.
-	2. Execute `dotnet restore`.
 
-**NOTE:** App and tests require Visual Studio 2017 LocalDB on the machine to run.
-**NOTE:** Since SQL Server is not generlly available on Mac, the InMemoryStore is used to run the application. So the changes that you make will not be persisted.
+## Run on RHEL7
+If you haven't already done so you will first need to install .NET Core and enable the software collection:
+```
+sudo subscription-manager repos --enable=rhel-7-server-dotnet-rpms
+sudo yum install scl-utils
+sudo yum install rh-dotnetcore11
+sudo scl enable rh-dotnetcore11 bash
+```
+At this point you can clone the repository and run the MusicStore appliation locally:
+```
+git clone https://github.com/redhat-developer/s2i-aspnet-musicstore-ex.git
+cd s2i-aspnet-musicstore-ex/samples/MusicStore
+dotnet restore
+dotnet build
+dotnet run
+```
+The MusicStore demo should now be runing on [http://127.0.0.1:8080]()
 
-## Run on Docker Windows Containers
 
- * [Install Docker for Windows](https://docs.docker.com/docker-for-windows/) or [setup up Docker Windows containers](https://msdn.microsoft.com/en-us/virtualization/windowscontainers/containers_welcome)
- * `docker-compose -f .\docker-compose.windows.yml build`
- * `docker-compose -f .\docker-compose.windows.yml up`
- * Access MusicStore on either the Windows VM IP or (if container is running locally) on the container IP: `docker inspect -f "{{ .NetworkSettings.Networks.nat.IPAddress }}" musicstore_web_1`
+## Run on OpenShift
 
-## NTLM authentication
-More information at [src/MusicStore/StartupNtlmAuthentication.cs](src/MusicStore/StartupNtlmAuthentication.cs).
-
-## OpenIdConnect authentication
-More information at [src/MusicStore/StartupOpenIdConnect.cs](src/MusicStore/StartupOpenIdConnect.cs).
+The **dotnet-pgsql-persistent** template in the [s2i-dotnetcore](https://github.com/redhat-developer/s2i-dotnetcore) repository
+instantiates the MusicStore application with a PostgreSQL database. The [README.md](https://github.com/redhat-developer/s2i-dotnetcore/blob/master/README.md)
+describes how to use the template.

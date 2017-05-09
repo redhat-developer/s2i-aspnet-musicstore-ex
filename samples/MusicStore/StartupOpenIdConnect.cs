@@ -30,8 +30,6 @@ namespace MusicStore
     /// </summary>
     public class StartupOpenIdConnect
     {
-        private readonly Platform _platform;
-
         public StartupOpenIdConnect(IHostingEnvironment hostingEnvironment)
         {
             // Below code demonstrates usage of multiple configuration sources. For instance a setting say 'setting1'
@@ -44,7 +42,6 @@ namespace MusicStore
                 .AddEnvironmentVariables();
 
             Configuration = builder.Build();
-            _platform = new Platform();
         }
 
         public IConfiguration Configuration { get; private set; }
@@ -54,16 +51,7 @@ namespace MusicStore
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
 
             // Add EF services to the services container
-            if (_platform.UseInMemoryStore)
-            {
-                services.AddDbContext<MusicStoreContext>(options =>
-                            options.UseInMemoryDatabase("Scratch"));
-            }
-            else
-            {
-                services.AddDbContext<MusicStoreContext>(options =>
-                            options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
-            }
+            services.AddMusicStoreDbContext(Configuration);
 
             // Add Identity services to the services container
             services.AddIdentity<ApplicationUser, IdentityRole>()
