@@ -22,6 +22,11 @@
     <PackageReference Include="Microsoft.AspNetCore.All" Version="$(MicrosoftAspNetCoreAllPackageVersion)" />
   </ItemGroup>
 
+  <ItemGroup Condition="'$(TargetFrameworkIdentifier)'=='.NETCoreApp'">
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.0.0-preview2-final" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.0.0-preview3-10055" />
+  </ItemGroup>
+
   <ItemGroup Condition="'$(TargetFrameworkIdentifier)'=='.NETFramework' OR '$(Configuration)' != 'RuntimeStore' ">
     <PackageReference Include="Microsoft.AspNetCore" Version="$(MicrosoftAspNetCorePackageVersion)" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="$(MicrosoftAspNetCoreAuthenticationCookiesPackageVersion)" />

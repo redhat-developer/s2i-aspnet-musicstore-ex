@@ -27,8 +27,6 @@ namespace MusicStore
 {
     public class StartupSocialTesting
     {
-        private readonly Platform _platform;
-
         public StartupSocialTesting(IHostingEnvironment hostingEnvironment)
         {
             //Below code demonstrates usage of multiple configuration sources. For instance a setting say 'setting1' is found in both the registered sources,
@@ -40,7 +38,6 @@ namespace MusicStore
                 .AddJsonFile("configoverride.json", optional: true); // Used to override some configuration parameters that cannot be overridden by environment.
 
             Configuration = builder.Build();
-            _platform = new Platform();
         }
 
         public IConfiguration Configuration { get; private set; }
@@ -50,16 +47,7 @@ namespace MusicStore
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
 
             // Add EF services to the services container
-            if (_platform.UseInMemoryStore)
-            {
-                services.AddDbContext<MusicStoreContext>(options =>
-                            options.UseInMemoryDatabase("Scratch"));
-            }
-            else
-            {
-                services.AddDbContext<MusicStoreContext>(options =>
-                            options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
-            }
+            services.AddMusicStoreDbContext(Configuration);
 
             // Add Identity services to the services container
             services.AddIdentity<ApplicationUser, IdentityRole>()
