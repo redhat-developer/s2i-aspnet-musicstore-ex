@@ -7,8 +7,18 @@
   "DefaultAdminPassword": "YouShouldChangeThisPassword1!",
   "Data": {
     "DefaultConnection": {
-      // Use a shared (and running) LocalDB database when executing in IIS e.g.
-      // "Server=(localdb)\\.\\IIS_DB;Database=MusicStore;Trusted_Connection=False;MultipleActiveResultSets=true;User ID=iis_login;Password=********"
+      // Provider should be: "platform", memory", "sqlserver", "npgsql", "sqlite", "mysql"
+      //   "platform" uses "sqlserver" on Windows and "memory" otherwise
+      "Provider": "platform",
+      // Connection string for the provider
+      // sqlserver:
+      //   "Server=(localdb)\\.\\IIS_DB;Database=MusicStore;Trusted_Connection=False;MultipleActiveResultSets=true;User ID=iis_login;Password=********"
+      // npgsql:
+      //   "Host=localhost;Database=musicstore;Username=musicstore;Password=musicstore"
+      // sqlite:
+      //   "data source=musicstore.db;"
+      // mysql:
+      //   "server=127.0.0.1;port=3306;database=musicstore;uid=root;pwd=root;"
       "ConnectionString": "Server=(localdb)\\MSSQLLocalDB;Database=MusicStore;Trusted_Connection=True;MultipleActiveResultSets=true;Connect Timeout=30;"
     }
   }
