@@ -23,7 +23,8 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFrameworkIdentifier)'=='.NETCoreApp'">
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.0.0-preview2-final" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.1.0-rc1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.1.0-rc1-final" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.0.0-preview3-10055" />
   </ItemGroup>
 
